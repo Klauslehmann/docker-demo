@@ -16,4 +16,12 @@ node {
        def app = docker.build("klehmann89/docker-nodejs-demo3:${commit_id}", '.').push()
      }
    }
+
+   stage('Deploy') {
+         steps {
+                  echo 'Deploying the application on Docker'
+                   sh "docker run -p 3000:3000 -d  --name test-nodejs klehmann89/docker-nodejs-demo3:${commit_id}" 
+               }
+           }
+   
 }
