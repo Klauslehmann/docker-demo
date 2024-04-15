@@ -13,14 +13,15 @@ node {
    }
    stage('docker build/push') {
      docker.withRegistry('https://index.docker.io/v2/', 'dockerhub') {
-       def app = docker.build("klehmann89/docker-nodejs-demo3:${commit_id}", '.').push()
+       def app = docker.build("klehmann89/docker-nodejs-demo3:latest", '.').push()
      }
    }
 
    stage('Deploy') {
          
                   echo 'Deploying the application on Docker'
-                   sh "docker run -p 3000:3000 -d  --name test-nodejs klehmann89/docker-nodejs-demo3:${commit_id}" 
+                  sh "docker rm -f test-nodejs"
+                   sh "docker run -p 3000:3000 -d  --name test-nodejs klehmann89/docker-nodejs-demo3:latest" 
                
            }
    
